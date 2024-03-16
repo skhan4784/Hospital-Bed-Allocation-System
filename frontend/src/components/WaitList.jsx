@@ -1,38 +1,45 @@
-// BedDetails.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const WaitList = () => {
-  const [patients, setPatients] = useState([]);
+const Waitlist = () => {
+  const [waitlist, setWaitlist] = useState([]);
 
   useEffect(() => {
-    // Function to fetch patient data from backend
-    const fetchPatients = async () => {
+    const fetchWaitlist = async () => {
       try {
-        // Make GET request to backend endpoint to fetch patients
-        const response = await axios.get('http://127.0.0.1:5000/api/get_patients');
-        // Update state with fetched patient data
-        setPatients(response.data);
+        const response = await axios.get('http://127.0.0.1:5000/api/waitlist');
+        setWaitlist(response.data);
       } catch (error) {
-        console.error('Error fetching patients:', error);
+        console.error('Error fetching waitlist:', error);
       }
     };
 
-    // Call fetchPatients function when component mounts
-    fetchPatients();
-  }, []); // Run effect only once when component mounts
+    fetchWaitlist();
+  }, []);
 
   return (
-    <div className="dashboard">
-      <h2>Wait List</h2>
-      {/* Display the list of patients */}
-      <ul>
-        {patients.map((patient, index) => (
-          <li key={index}>{patient.name}</li>
-        ))}
-      </ul>
+    <div>
+      <h2>Waitlist</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Patient ID</th>
+            <th>Arrival Date</th>
+            <th>Waiting Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {waitlist.map((patient, index) => (
+            <tr key={index}>
+              <td>{patient.patient_id}</td>
+              <td>{patient.arrival_date}</td>
+              <td>{patient.waiting_time}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default WaitList;
+export default Waitlist;

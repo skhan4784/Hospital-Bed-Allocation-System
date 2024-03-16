@@ -22,13 +22,31 @@ const Dashboard = () => {
     fetchPatients();
   }, []); // Run effect only once when component mounts
 
+  // Function to handle delete patient
+  // Function to handle delete patient
+  const handleDelete = async (id) => {
+    try {
+      // Make DELETE request to backend endpoint to delete patient
+      await axios.delete(`http://127.0.0.1:5000/api/delete_patient/${id}`);
+      // Update state to remove deleted patient
+      setPatients(patients.filter(patient => patient._id !== id));
+    } catch (error) {
+      console.error('Error deleting patient:', error);
+    }
+  };
+
+
   return (
     <div className="dashboard">
-      <h2>Dashboard</h2>
+      <h2>Patients</h2>
       {/* Display the list of patients */}
       <ul>
         {patients.map((patient, index) => (
-          <li key={index}>{patient.name}</li>
+          <li key={index}>
+            {patient.name}
+            {/* Delete button */}
+            <button onClick={() => handleDelete(patient._id)}>Delete</button>
+          </li>
         ))}
       </ul>
     </div>

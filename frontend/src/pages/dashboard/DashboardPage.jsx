@@ -5,6 +5,7 @@ import SidePanel from '../../components/SidePanel';
 import AllocationDetails from '../../components/AllocationDetails';
 import WaitList from '../../components/WaitList';
 import BedDetails from '../../components/BedDetails';
+import Dashboard from '../../components/Dashboard'; // Import the Dashboard component
 
 const DashboardPage = () => {
   // State to manage which component to display
@@ -24,11 +25,13 @@ const DashboardPage = () => {
           <h1>Dashboard Page</h1>
           {/* Buttons to switch between components */}
           <div>
+            <button onClick={() => handleButtonClick('patients')}>Patients</button>
             <button onClick={() => handleButtonClick('allocation')}>Allocation Details</button>
             <button onClick={() => handleButtonClick('waitlist')}>Wait List</button>
             <button onClick={() => handleButtonClick('beddetails')}>Bed Details</button>
           </div>
           {/* Render the selected component */}
+          {activeComponent === 'patients' && <Dashboard />} {/* Render Dashboard component */}
           {activeComponent === 'allocation' && <AllocationDetails />}
           {activeComponent === 'waitlist' && <WaitList />}
           {activeComponent === 'beddetails' && <BedDetails />}

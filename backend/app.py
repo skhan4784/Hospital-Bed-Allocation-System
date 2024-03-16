@@ -106,13 +106,29 @@ def delete_patient(patient_id):
         allocated_bed = mongo.db.bed_details.find_one({"patient_id": patient_id_to_delete})
         
         if allocated_bed:
-            # Free up the bed
+            # Check if there are patients in the waiting list
+            waiting_patients = mongo.db.waiting_list.find()
+
+            # if waiting_patients.count() > 0:
+            #     # Select the first patient in the waiting list
+            #     next_patient = waiting_patients[0]
+
+            #     # Allocate bed to the waiting patient
+            #     mongo.db.bed_details.update_one({"bed_number": next_patient["bed_number"]}, {"$set": {"is_occupied": True, "patient_id": next_patient["patient_id"]}})
+
+            #     # Remove the patient from the waiting list
+            #     mongo.db.waiting_list.delete_one({"_id": next_patient["_id"]})
+            
+            # else:
+            #     # Free up the bed
             mongo.db.bed_details.update_one({"patient_id": allocated_bed["patient_id"]}, {"$set": {"is_occupied": False, "patient_id": None}})
             # Remove the allocation details
             mongo.db.allocation_details.delete_one({"patient_id": patient_id_to_delete})
         else:
             # Remove the patient from waiting list
             mongo.db.waiting_list.delete_one({"patient_id": patient_id_to_delete})
+        
+        
 
         # Delete the patient from the patients collection
         mongo.db.patients.delete_one({"_id": patient_oid})
@@ -120,6 +136,23 @@ def delete_patient(patient_id):
         return jsonify({"message": "Patient deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/waitlist', methods=['GET'])
+def get_waitlist():
+    try:
+        waitlist = list(mongo.db.waiting_list.find({}, {"_id": 0}))
+        return jsonify(waitlist), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/get_allocation_details', methods=['GET'])
+def get_allocation_details():
+    try:
+        # Fetch allocation details from the database
+        allocation_details = list(mongo.db.allocation_details.find({}, {'_id': 0}))
+        return jsonify(allocation_details), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
