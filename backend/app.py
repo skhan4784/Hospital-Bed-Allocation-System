@@ -109,19 +109,34 @@ def delete_patient(patient_id):
             # Check if there are patients in the waiting list
             waiting_patients = mongo.db.waiting_list.find()
 
-            # if waiting_patients.count() > 0:
-            #     # Select the first patient in the waiting list
-            #     next_patient = waiting_patients[0]
+            if waiting_patients:
+                # Select the first patient in the waiting list
+                next_patient = waiting_patients[0]
+                
+                #next patient id
+                next_patient_id = next_patient["patient_id"]
 
-            #     # Allocate bed to the waiting patient
-            #     mongo.db.bed_details.update_one({"bed_number": next_patient["bed_number"]}, {"$set": {"is_occupied": True, "patient_id": next_patient["patient_id"]}})
+                # Find the patient by ID
+                patient = mongo.db.patients.find_one({"patient_id": next_patient_id})
 
-            #     # Remove the patient from the waiting list
-            #     mongo.db.waiting_list.delete_one({"_id": next_patient["_id"]})
+                # Allocate bed to the waiting patient
+                mongo.db.bed_details.update_one({"bed_number": allocated_bed["bed_number"]}, {"$set": {"is_occupied": True, "patient_id": next_patient_id}})
+
+                # Remove the patient from the waiting list
+                mongo.db.waiting_list.delete_one({"patient_id": next_patient_id})
+
+                #Add patient to allocation details
+                mongo.db.allocation_details.insert_one({
+                    "patient_id": patient["patient_id"],
+                    "arrival_date": next_patient["arrival_date"],
+                    "allocation_date": datetime.now(),
+                    "bed_number": allocated_bed["bed_number"],
+                    "waiting_time": 0
+                })
             
-            # else:
-            #     # Free up the bed
-            mongo.db.bed_details.update_one({"patient_id": allocated_bed["patient_id"]}, {"$set": {"is_occupied": False, "patient_id": None}})
+            else:
+                # Free up the bed
+                mongo.db.bed_details.update_one({"patient_id": allocated_bed["patient_id"]}, {"$set": {"is_occupied": False, "patient_id": None}})
             # Remove the allocation details
             mongo.db.allocation_details.delete_one({"patient_id": patient_id_to_delete})
         else:
