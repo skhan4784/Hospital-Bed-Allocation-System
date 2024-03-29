@@ -4,6 +4,7 @@ import './AddPatient.css';
 import AddPatientForm from '../../components/AddPatientForm';
 import TopPanel from '../../components/TopPanel';
 import SidePanel from '../../components/SidePanel';
+import Form from '../../components/LosForm';
 
 const AddPatientPage = () => {
 
@@ -27,6 +28,7 @@ const AddPatientPage = () => {
         <main className="content">
           <h2>Add Patient</h2>
           <AddPatientForm onAdd={handleAddPatient} />
+          <Form/>
         </main>
       </div>
     </div>

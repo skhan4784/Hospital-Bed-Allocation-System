@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './AddPatientForm.css';
 
 const AddPatientForm = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [lengthOfStay, setLengthOfStay] = useState('');
+  const [feedback, setFeedback] = useState(''); // State for feedback message
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,15 @@ const AddPatientForm = () => {
         length_of_stay: lengthOfStay
       });
       console.log('Request sent to backend!');
+      setFeedback('Patient Added Successfully'); // Set feedback message
+      setTimeout(() => {
+        setFeedback(''); // Clear feedback message after 2 seconds
+      }, 2000);
+
+      // Clear input fields
+      setName('');
+      setAge('');
+      setLengthOfStay('');
     } catch (error) {
       console.error('Error adding patient:', error);
     }
@@ -44,21 +55,24 @@ const AddPatientForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      </label>
-      <label>
-        Age:
-        <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
-      </label>
-      <label>
-        Length of Stay:
-        <input type="number" value={lengthOfStay} onChange={(e) => setLengthOfStay(e.target.value)} />
-      </label>
-      <button type="submit">Add Patient</button>
-    </form>
+    <div>
+      {feedback && <div className="feedback">{feedback}</div>}
+      <form onSubmit={handleSubmit} className="add-patient-form">
+        <div className="form-group">
+          <label htmlFor="name">Name:</label>
+          <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="age">Age:</label>
+          <input type="number" id="age" value={age} onChange={(e) => setAge(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="lengthOfStay">Length of Stay:</label>
+          <input type="number" id="lengthOfStay" value={lengthOfStay} onChange={(e) => setLengthOfStay(e.target.value)} />
+        </div>
+        <button type="submit" className="submit-button">Add Patient</button>
+      </form>
+    </div>
   );
 };
 

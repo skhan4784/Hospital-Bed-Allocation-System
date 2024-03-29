@@ -1,0 +1,41 @@
+/* SidePanel.css */
+
+.side-panel {
+  background-color: #3498db; /* Enhanced color scheme */
+  border-right: 1px solid #ddd; 
+  color: #ffffff; /* Text color changed to white */
+  width: 180px; /* Decreased width */
+  height: 100vh;
+  padding: 20px;
+  transition: background-color 0.3s;
+  display: flex; /* Added to make flexbox */
+  flex-direction: column; /* Stack items vertically */
+}
+
+.side-panel:hover {
+  background-color: #2980b9; /* Darker shade on hover */
+}
+
+.side-panel nav {
+  flex-grow: 1; /* Grow to fill available space */
+  width: 100%; /* Take up full width */
+}
+
+.side-panel nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-panel nav ul li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px; /* Font size increased */
+}
+
+.side-panel nav ul li:hover {
+  background-color: #2574a9; /* Darker shade on hover */
+}

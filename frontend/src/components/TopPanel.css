@@ -1,0 +1,43 @@
+/* TopPanel.css */
+.top-panel {
+  background-color: #2ecc71; /* Enhanced color scheme */
+  padding: 20px; /* Increase padding to adjust the height */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: auto; /* Set height to auto to accommodate content */
+}
+
+.left-content {
+  flex: 1;
+}
+
+.right-content {
+  margin-left: 20px; /* Some space from the left */
+}
+
+.home-logo {
+  cursor: pointer;
+  width: 250px; /* Adjust the width of the logo */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 10px; /* Make the button more rounded */
+  padding: 12px 20px; /* Increase padding for a bigger button */
+  margin-right: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+.bigger-button {
+  font-size: 16px; /* Increase font size for a bigger button */
+}

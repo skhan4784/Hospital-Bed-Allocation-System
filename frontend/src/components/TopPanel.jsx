@@ -2,21 +2,29 @@
 import React from 'react';
 import logo from '../assets/images/logo.jpeg';
 import { useNavigate } from 'react-router-dom';
+import './TopPanel.css';
 
 const TopPanel = () => {
-
   const navigate = useNavigate();
 
+  const handleLogoClick = () => {
+    navigate('/home');
+  };
+
   const handleLogout = () => {
-    // Implement logout functionality
-    // For now, we will just redirect to the login page
     navigate('/');
   };
 
   return (
     <header className="top-panel">
-      <img src={logo} alt="Logo" className="home-logo" />
-      <button onClick={handleLogout} className="logout-button">Logout</button>
+      <div className="left-content">
+        <img src={logo} alt="Logo" className="home-logo" onClick={handleLogoClick} />
+      </div>
+      <div className="right-content">
+        <button onClick={handleLogout} className="logout-button bigger-button">
+          Logout
+        </button>
+      </div>
     </header>
   );
 };

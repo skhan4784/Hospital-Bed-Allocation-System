@@ -1,7 +1,7 @@
 // BedDetails.jsx
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './BedDetails.css';
 
 const BedDetails = () => {
   const [beds, setBeds] = useState([]);
@@ -21,26 +21,23 @@ const BedDetails = () => {
   }, []); // Empty dependency array to only run once on mount
 
   return (
-    <div>
+    <div className="bed-details">
       <h2>Bed Details</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Bed Number</th>
-            <th>Is Occupied</th>
-            <th>Patient ID</th>
-          </tr>
-        </thead>
-        <tbody>
-          {beds.map((bed, index) => (
-            <tr key={index}>
-              <td>{bed.bed_number}</td>
-              <td>{bed.is_occupied ? 'Occupied' : 'Vacant'}</td>
-              <td>{bed.patient_id || 'N/A'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="beds-container">
+        {beds.map((bed, index) => (
+          <div className={`bed-card ${bed.is_occupied ? 'occupied' : 'vacant'}`} key={index}>
+            <div className="bed-number">
+              <label>Bed Number: </label>
+              <span>{bed.bed_number}</span>
+            </div>
+            <div className="status">{bed.is_occupied ? 'Occupied' : 'Vacant'}</div>
+            <div className="patient-id">
+              <label>Patient ID: </label>
+              <span>{bed.patient_id || 'N/A'}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

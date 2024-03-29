@@ -1,194 +1,473 @@
-import { useState } from 'react';
-import './LosForm.css';
+// LosForm.jsx
+import { useState } from "react";
+import "./LosForm.css";
 
-function Form() {
-   const [form, setForm] = useState({
-      dialysisrenalendstage: "",
-      asthma: "",
-      irondef: "",
-      pneum: "",
-      substancedependence: "",
-      psychologicaldisordermajor: "",
-      depress: "",
-      psychother: "",
-      fibrosisandother: "",
-      malnutrition: "",
-      hemo: "",
-      hematocrit: "",
-      neutrophils: "",
-      sodium: "",
-      glucose: "",
-      bloodureanitro: "",
-      creatinine: "",
-      bmi: "",
-      pulse: "",
-      respiration: "",
-      secondarydiagnosisnonicd9: "",
-      numberofissues: "",
-      gender_F: "",
-      gender_M: "",
-      rcount_0: "",
-      rcount_1: "",
-      rcount_2: "",
-      rcount_3: "",
-      rcount_4: "",
-      rcount_5_plus: "",
-      facid_A: "",
-      facid_B: "",
-      facid_C: "",
-      facid_D: "",
-      facid_E: ""
-    });
+function LosForm() {
+  const [form, setForm] = useState({
+    dialysisRenalEndStage: 0,
+    asthma: 0,
+    ironDef: 0,
+    pneum: 0,
+    substanceDependence: 0,
+    psychologicalDisorderMajor: 0,
+    depress: 0,
+    psychoTher: 0,
+    fibrosisAndOther: 0,
+    malnutrition: 0,
+    hemo: 0,
+    hematocrit: "",
+    neutrophils: "",
+    sodium: "",
+    glucose: "",
+    bloodUreaNitro: "",
+    creatinine: "",
+    bmi: "",
+    pulse: "",
+    respiration: "",
+    secondaryDiagnosisNonICD9: "",
+    numberOfIssues: "",
+    gender: "",
+    rCount: "",
+    facId: "",
+  });
 
-   const [loading, setLoading] = useState(false);
-   const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState("");
 
-   const handleSubmit = (event) => {
-      event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-      const form_data = new FormData();
-      form_data.append("1", form.dialysisrenalendstage);
-      form_data.append("2", form.asthma);
-      form_data.append("3", form.irondef);
-      form_data.append("4", form.pneum);
-      form_data.append("5", form.substancedependence);
-      form_data.append("6", form.psychologicaldisordermajor);
-      form_data.append("7", form.depress);
-      form_data.append("8", form.psychother);
-      form_data.append("9", form.fibrosisandother);
-      form_data.append("10", form.malnutrition);
-      form_data.append("11", form.hemo);
-      form_data.append("12", form.hematocrit);
-      form_data.append("13", form.neutrophils);
-      form_data.append("14", form.sodium);
-      form_data.append("15", form.glucose);
-      form_data.append("16", form.bloodureanitro);
-      form_data.append("17", form.creatinine);
-      form_data.append("18", form.bmi);
-      form_data.append("19", form.pulse);
-      form_data.append("20", form.respiration);
-      form_data.append("21", form.secondarydiagnosisnonicd9);
-      form_data.append("22", form.numberofissues);
-      form_data.append("23", form.gender_F);
-      form_data.append("24", form.gender_M);
-      form_data.append("25", form.rcount_0);
-      form_data.append("26", form.rcount_1);
-      form_data.append("27", form.rcount_2);
-      form_data.append("28", form.rcount_3);
-      form_data.append("29", form.rcount_4);
-      form_data.append("30", form.rcount_5_plus);
-      form_data.append("31", form.facid_A);
-      form_data.append("32", form.facid_B);
-      form_data.append("33", form.facid_C);
-      form_data.append("34", form.facid_D);
-      form_data.append("35", form.facid_E);
+    const formData = new FormData();
+    formData.append("1", form.dialysisRenalEndStage);
+    formData.append("2", form.asthma);
+    formData.append("3", form.ironDef);
+    formData.append("4", form.pneum);
+    formData.append("5", form.substanceDependence);
+    formData.append("6", form.psychologicalDisorderMajor);
+    formData.append("7", form.depress);
+    formData.append("8", form.psychoTher);
+    formData.append("9", form.fibrosisAndOther);
+    formData.append("10", form.malnutrition);
+    formData.append("11", form.hemo);
+    formData.append("12", form.hematocrit);
+    formData.append("13", form.neutrophils);
+    formData.append("14", form.sodium);
+    formData.append("15", form.glucose);
+    formData.append("16", form.bloodUreaNitro);
+    formData.append("17", form.creatinine);
+    formData.append("18", form.bmi);
+    formData.append("19", form.pulse);
+    formData.append("20", form.respiration);
+    formData.append("21", form.secondaryDiagnosisNonICD9);
+    formData.append("22", form.numberOfIssues);
+    formData.append("23", form.gender);
+    formData.append("24", form.rCount);
+    formData.append("25", form.facId);
 
-      setLoading(true);
+    setLoading(true);
 
-      fetch('http://127.0.0.1:5000/predict', {
-         method: 'POST',
-         body: form_data
+    fetch("http://127.0.0.1:5000/api/predict", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.text())
+      .then((html) => {
+        setResult(html);
+        setLoading(false);
       })
-         .then(response => response.text())
-         .then(html => {
-            setResult(html);
-            setLoading(false);
-         })
-   };
-
-   const onChange = (event) => {
-      const name = event.target.name;
-      const value = event.target.value;
-      setForm({ ...form, [name]: value });
-   };
-
-   const handleClear = () => {
-      setForm({
-         dialysisrenalendstage: "",
-         asthma: "",
-         irondef: "",
-         pneum: "",
-         substancedependence: "",
-         psychologicaldisordermajor: "",
-         depress: "",
-         psychother: "",
-         fibrosisandother: "",
-         malnutrition: "",
-         hemo: "",
-         hematocrit: "",
-         neutrophils: "",
-         sodium: "",
-         glucose: "",
-         bloodureanitro: "",
-         creatinine: "",
-         bmi: "",
-         pulse: "",
-         respiration: "",
-         secondarydiagnosisnonicd9: "",
-         numberofissues: "",
-         gender_F: "",
-         gender_M: "",
-         rcount_0: "",
-         rcount_1: "",
-         rcount_2: "",
-         rcount_3: "",
-         rcount_4: "",
-         rcount_5_plus: "",
-         facid_A: "",
-         facid_B: "",
-         facid_C: "",
-         facid_D: "",
-         facid_E: ""
+      .catch((error) => {
+        console.error("Error:", error);
+        setLoading(false);
       });
+  };
 
-      setResult("");
-   };
+  const onChange = (event) => {
+    const name = event.target.name;
+    const value =
+      event.target.type === "checkbox"
+        ? event.target.checked
+          ? 1
+          : 0
+        : event.target.value;
+    setForm({ ...form, [name]: value });
+  };
 
-   return (
-      <form onSubmit={handleSubmit}>
-         <h4>LOS Prediction Model</h4>
-         <input type="number" name="dialysisrenalendstage" value={form.dialysisrenalendstage} onChange={onChange} placeholder="Dialysis Renal End Stage" required />
-         <input type="number" name="asthma" value={form.asthma} onChange={onChange} placeholder="Asthma" required />
-         <input type="number" name="irondef" value={form.irondef} onChange={onChange} placeholder="Iron Deficiency" required />
-         <input type="number" name="pneum" value={form.pneum} onChange={onChange} placeholder="Pneumonia" required />
-         <input type="number" name="substancedependence" value={form.substancedependence} onChange={onChange} placeholder="Substance Dependence" required />
-         <input type="number" name="psychologicaldisordermajor" value={form.psychologicaldisordermajor} onChange={onChange} placeholder="Psychological Disorder Major" required />
-         <input type="number" name="depress" value={form.depress} onChange={onChange} placeholder="Depression" required />
-         <input type="number" name="psychother" value={form.psychother} onChange={onChange} placeholder="Psychotherapy" required />
-         <input type="number" name="fibrosisandother" value={form.fibrosisandother} onChange={onChange} placeholder="Fibrosis and Other" required />
-         <input type="number" name="malnutrition" value={form.malnutrition} onChange={onChange} placeholder="Malnutrition" required />
-         <input type="number" name="hemo" value={form.hemo} onChange={onChange} placeholder="Hemo" required />
-         <input type="number" name="hematocrit" value={form.hematocrit} onChange={onChange} placeholder="Hematocrit" required />
-         <input type="number" name="neutrophils" value={form.neutrophils} onChange={onChange} placeholder="Neutrophils" required />
-         <input type="number" name="sodium" value={form.sodium} onChange={onChange} placeholder="Sodium" required />
-         <input type="number" name="glucose" value={form.glucose} onChange={onChange} placeholder="Glucose" required />
-         <input type="number" name="bloodureanitro" value={form.bloodureanitro} onChange={onChange} placeholder="Blood Urea Nitro" required />
-         <input type="number" name="creatinine" value={form.creatinine} onChange={onChange} placeholder="Creatinine" required />
-         <input type="number" name="bmi" value={form.bmi} onChange={onChange} placeholder="BMI" required />
-         <input type="number" name="pulse" value={form.pulse} onChange={onChange} placeholder="Pulse" required />
-         <input type="number" name="respiration" value={form.respiration} onChange={onChange} placeholder="Respiration" required />
-         <input type="number" name="secondarydiagnosisnonicd9" value={form.secondarydiagnosisnonicd9} onChange={onChange} placeholder="Secondary Diagnosis Non ICD9" required />
-         <input type="number" name="numberofissues" value={form.numberofissues} onChange={onChange} placeholder="Number of Issues" required />
-         <input type="number" name="gender_F" value={form.gender_F} onChange={onChange} placeholder="Gender Female" required />
-         <input type="number" name="gender_M" value={form.gender_M} onChange={onChange} placeholder="Gender Male" required />
-         <input type="number" name="rcount_0" value={form.rcount_0} onChange={onChange} placeholder="R Count 0" required />
-         <input type="number" name="rcount_1" value={form.rcount_1} onChange={onChange} placeholder="R Count 1" required />
-         <input type="number" name="rcount_2" value={form.rcount_2} onChange={onChange} placeholder="R Count 2" required />
-         <input type="number" name="rcount_3" value={form.rcount_3} onChange={onChange} placeholder="R Count 3" required />
-         <input type="number" name="rcount_4" value={form.rcount_4} onChange={onChange} placeholder="R Count 4" required />
-         <input type="number" name="rcount_5_plus" value={form.rcount_5_plus} onChange={onChange} placeholder="R Count 5+" required />
-         <input type="number" name="facid_A" value={form.facid_A} onChange={onChange} placeholder="Facid A" required />
-         <input type="number" name="facid_B" value={form.facid_B} onChange={onChange} placeholder="Facid B" required />
-         <input type="number" name="facid_C" value={form.facid_C} onChange={onChange} placeholder="Facid C" required />
-         <input type="number" name="facid_D" value={form.facid_D} onChange={onChange} placeholder="Facid D" required />
-         <input type="number" name="facid_E" value={form.facid_E} onChange={onChange} placeholder="Facid E" required />
+  const handleClear = () => {
+   setForm({
+     dialysisRenalEndStage: 0,
+     asthma: 0,
+     ironDef: 0,
+     pneum: 0,
+     substanceDependence: 0,
+     psychologicalDisorderMajor: 0,
+     depress: 0,
+     psychoTher: 0,
+     fibrosisAndOther: 0,
+     malnutrition: 0,
+     hemo: 0,
+     hematocrit: "",
+     neutrophils: "",
+     sodium: "",
+     glucose: "",
+     bloodUreaNitro: "",
+     creatinine: "",
+     bmi: "",
+     pulse: "",
+     respiration: "",
+     secondaryDiagnosisNonICD9: "",
+     numberOfIssues: "",
+     gender: "",
+     rCount: "",
+     facId: ""
+   });
+ 
+   // Uncheck all checkboxes
+   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+   checkboxes.forEach(checkbox => {
+     checkbox.checked = false;
+   });
+ 
+   setResult("");
+ };
+ 
 
-         <button type="submit" disabled={loading}>{loading ? "Predicting Result..." : "Submit Form"}</button>
-         {result && <span onClick={handleClear}>Clear Prediction</span>}
+  return (
+    <div className="form-container">
+      <form className="los-form" onSubmit={handleSubmit}>
+        <h2>LOS Prediction Model</h2>
+        <h3>Enter the medical information</h3>
 
-         {result && <div dangerouslySetInnerHTML={{ __html: result }} className="result" />}
+        <div className="input-group">
+          <label htmlFor="hematocrit">Hematocrit</label>
+          <input
+            type="number"
+            id="hematocrit"
+            name="hematocrit"
+            value={form.hematocrit}
+            onChange={onChange}
+            placeholder="Hematocrit"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="neutrophils">Neutrophils</label>
+          <input
+            type="number"
+            id="neutrophils"
+            name="neutrophils"
+            value={form.neutrophils}
+            onChange={onChange}
+            placeholder="Neutrophils"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="sodium">Sodium</label>
+          <input
+            type="number"
+            id="sodium"
+            name="sodium"
+            value={form.sodium}
+            onChange={onChange}
+            placeholder="Sodium"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="glucose">Glucose</label>
+          <input
+            type="number"
+            id="glucose"
+            name="glucose"
+            value={form.glucose}
+            onChange={onChange}
+            placeholder="Glucose"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="bloodUreaNitro">Blood Urea Nitro</label>
+          <input
+            type="number"
+            id="bloodUreaNitro"
+            name="bloodUreaNitro"
+            value={form.bloodUreaNitro}
+            onChange={onChange}
+            placeholder="Blood Urea Nitro"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="creatinine">Creatinine</label>
+          <input
+            type="number"
+            id="creatinine"
+            name="creatinine"
+            value={form.creatinine}
+            onChange={onChange}
+            placeholder="Creatinine"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="bmi">BMI</label>
+          <input
+            type="number"
+            id="bmi"
+            name="bmi"
+            value={form.bmi}
+            onChange={onChange}
+            placeholder="BMI"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="pulse">Pulse</label>
+          <input
+            type="number"
+            id="pulse"
+            name="pulse"
+            value={form.pulse}
+            onChange={onChange}
+            placeholder="Pulse"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="respiration">Respiration</label>
+          <input
+            type="number"
+            id="respiration"
+            name="respiration"
+            value={form.respiration}
+            onChange={onChange}
+            placeholder="Respiration"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="secondaryDiagnosisNonICD9">
+            Secondary Diagnosis Non ICD9
+          </label>
+          <input
+            type="number"
+            id="secondaryDiagnosisNonICD9"
+            name="secondaryDiagnosisNonICD9"
+            value={form.secondaryDiagnosisNonICD9}
+            onChange={onChange}
+            placeholder="Secondary Diagnosis Non ICD9"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="numberOfIssues">Number of Issues</label>
+          <input
+            type="number"
+            id="numberOfIssues"
+            name="numberOfIssues"
+            value={form.numberOfIssues}
+            onChange={onChange}
+            placeholder="Number of Issues"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="gender">Gender</label>
+          <input
+            type="text"
+            id="gender"
+            name="gender"
+            value={form.gender}
+            onChange={onChange}
+            placeholder="Gender"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="rCount">R Count</label>
+          <input
+            type="number"
+            id="rCount"
+            name="rCount"
+            value={form.rCount}
+            onChange={onChange}
+            placeholder="R Count"
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="facId">Facid</label>
+          <input
+            type="text"
+            id="facId"
+            name="facId"
+            value={form.facId}
+            onChange={onChange}
+            placeholder="Facid"
+            required
+          />
+        </div>
+
+        <h3>Check for the following conditions</h3>
+
+        <div className="checkbox-group">
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="dialysisRenalEndStage"
+              name="dialysisRenalEndStage"
+              value={form.dialysisRenalEndStage}
+              onChange={onChange}
+            />
+            <label htmlFor="dialysisRenalEndStage">
+              Dialysis Renal End Stage
+            </label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="asthma"
+              name="asthma"
+              value={form.asthma}
+              onChange={onChange}
+            />
+            <label htmlFor="asthma">Asthma</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="ironDef"
+              name="ironDef"
+              value={form.ironDef}
+              onChange={onChange}
+            />
+            <label htmlFor="ironDef">Iron Deficiency</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="pneum"
+              name="pneum"
+              value={form.pneum}
+              onChange={onChange}
+            />
+            <label htmlFor="pneum">Pneumonia</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="substanceDependence"
+              name="substanceDependence"
+              value={form.substanceDependence}
+              onChange={onChange}
+            />
+            <label htmlFor="substanceDependence">Substance Dependence</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="psychologicalDisorderMajor"
+              name="psychologicalDisorderMajor"
+              value={form.psychologicalDisorderMajor}
+              onChange={onChange}
+            />
+            <label htmlFor="psychologicalDisorderMajor">
+              Psychological Disorder Major
+            </label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="depress"
+              name="depress"
+              value={form.depress}
+              onChange={onChange}
+            />
+            <label htmlFor="depress">Depression</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="psychoTher"
+              name="psychoTher"
+              value={form.psychoTher}
+              onChange={onChange}
+            />
+            <label htmlFor="psychoTher">Psychotherapy</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="fibrosisAndOther"
+              name="fibrosisAndOther"
+              value={form.fibrosisAndOther}
+              onChange={onChange}
+            />
+            <label htmlFor="fibrosisAndOther">Fibrosis and Other</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="malnutrition"
+              name="malnutrition"
+              value={form.malnutrition}
+              onChange={onChange}
+            />
+            <label htmlFor="malnutrition">Malnutrition</label>
+          </div>
+
+          <div className="checkbox-container">
+            <input
+              type="checkbox"
+              id="hemo"
+              name="hemo"
+              value={form.hemo}
+              onChange={onChange}
+            />
+            <label htmlFor="hemo">Hemo</label>
+          </div>
+        </div>
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Predicting Result..." : "Submit Form"}
+        </button>
+
+        {result && (
+          <div className="result-container">
+            <button type="button" onClick={handleClear}>
+              Clear Prediction
+            </button>
+            <div
+              dangerouslySetInnerHTML={{ __html: result }}
+              className="result"
+            />
+          </div>
+        )}
       </form>
-   );
+    </div>
+  );
 }
 
-export default Form;
+export default LosForm;

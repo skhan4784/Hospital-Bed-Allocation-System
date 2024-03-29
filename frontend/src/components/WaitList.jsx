@@ -1,36 +1,42 @@
-// BedDetails.jsx
+// WaitList.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import './WaitList.css'; // Import the CSS file for WaitList
+
 const WaitList = () => {
-  const [patients, setPatients] = useState([]);
+  const [waitlist, setWaitlist] = useState([]);
 
   useEffect(() => {
-    // Function to fetch patient data from backend
-    const fetchPatients = async () => {
+    const fetchWaitlist = async () => {
       try {
-        // Make GET request to backend endpoint to fetch patients
-        const response = await axios.get('http://127.0.0.1:5000/api/get_patients');
-        // Update state with fetched patient data
-        setPatients(response.data);
+        const response = await axios.get('http://127.0.0.1:5000/api/waitlist');
+        setWaitlist(response.data);
       } catch (error) {
-        console.error('Error fetching patients:', error);
+        console.error('Error fetching waitlist:', error);
       }
     };
 
-    // Call fetchPatients function when component mounts
-    fetchPatients();
-  }, []); // Run effect only once when component mounts
+    fetchWaitlist();
+  }, []);
 
   return (
-    <div className="dashboard">
-      <h2>Wait List</h2>
-      {/* Display the list of patients */}
-      <ul>
-        {patients.map((patient, index) => (
-          <li key={index}>{patient.name}</li>
+    <div className="waitlist">
+      <h2>Waitlist</h2>
+      <div className="patient-list">
+        {waitlist.map((patient, index) => (
+          <div className="patient-card" key={index}>
+            <div className="patient-avatar">
+              <img src={`https://source.unsplash.com/100x100/?patient,hospital`} alt="Patient Avatar" />
+            </div>
+            <div className="patient-details">
+              <h3>Patient ID: {patient.patient_id}</h3>
+              <p>Arrival Date: {patient.arrival_date}</p>
+              <p>Waiting Time: {patient.waiting_time}</p>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

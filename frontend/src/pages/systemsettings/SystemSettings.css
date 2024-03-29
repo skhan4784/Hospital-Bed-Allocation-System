@@ -1,0 +1,42 @@
+/* SystemSettings.css */
+
+.system-settings-page {
+  background-color: #f4f4f4;
+  padding-bottom: 50px; /* Add padding at the bottom to ensure space for the form */
+  min-height: 100vh; /* Ensure the page takes up at least the full viewport height */
+}
+
+.content {
+  overflow-y: auto; /* Make the main content area scrollable vertically */
+  padding-right: 15px; /* Add some padding to prevent the scrollbar from overlaying content */
+}
+
+.systemSettingsPage-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.systemSettingsForm-container {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 80px;
+  margin-bottom: 30px;
+}
+
+.systemSettingsForm-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+/* Adjust input dimensions */
+.systemSettingsForm-container input[type="number"] {
+  max-width: 360px; /* Set the max-width to 360px */
+  height: 22px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
