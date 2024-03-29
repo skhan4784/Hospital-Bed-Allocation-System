@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // WaitList.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -5,6 +6,12 @@ import axios from 'axios';
 import './WaitList.css'; // Import the CSS file for WaitList
 
 const WaitList = () => {
+=======
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const Waitlist = () => {
+>>>>>>> 4dd9a06b04403d46da03da1f4cae72a3076d7df5
   const [waitlist, setWaitlist] = useState([]);
 
   useEffect(() => {
@@ -21,6 +28,7 @@ const WaitList = () => {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="waitlist">
       <h2>Waitlist</h2>
       <div className="patient-list">
@@ -37,8 +45,30 @@ const WaitList = () => {
           </div>
         ))}
       </div>
+=======
+    <div>
+      <h2>Waitlist</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Patient ID</th>
+            <th>Arrival Date</th>
+            <th>Waiting Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {waitlist.map((patient, index) => (
+            <tr key={index}>
+              <td>{patient.patient_id}</td>
+              <td>{patient.arrival_date}</td>
+              <td>{patient.waiting_time}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+>>>>>>> 4dd9a06b04403d46da03da1f4cae72a3076d7df5
     </div>
   );
 };
 
-export default WaitList;
+export default Waitlist;

@@ -25,6 +25,7 @@ const AllocationDetails = () => {
   }, []); // Run effect only once when component mounts
 
   return (
+<<<<<<< HEAD
     <div className="allocation-details">
       <h2>Allocation Details</h2>
       <div className='patient-list'>
@@ -41,7 +42,30 @@ const AllocationDetails = () => {
           </div>
         ))}
       </div>
+=======
+    <div>
+    <h2>Allocation Details</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Patient ID</th>
+          <th>Arrival Date</th>
+          <th>Bed Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {allocationDetails.map((detail, index) => (
+          <tr key={index}>
+            <td>{detail.patient_id}</td>
+            <td>{detail.arrival_date}</td>
+            <td>{detail.bed_number}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+>>>>>>> 4dd9a06b04403d46da03da1f4cae72a3076d7df5
     </div>
+
   );
 };
 
